@@ -22,6 +22,7 @@ crates_string = [
     "DSJVGPBF"
 ]
 
+
 def main():
     crates = [list(x) for x in crates_string]
     xs = [x.strip() for x in open("day5.txt")]
@@ -29,9 +30,9 @@ def main():
     for instruction in xs:
         split_inst = instruction.split()
         move_, from_, to_ = int(split_inst[1]), int(split_inst[3]), int(split_inst[5])
+        crates[to_ - 1] += crates[from_ - 1][:-move_ - 1:-1]
+        crates[from_ - 1] = crates[from_ - 1][:-move_]
 
-        for i in range(move_):
-            crates[to_ - 1].append(crates[from_ - 1].pop())
     print("".join([x.pop() for x in crates]))
 
 
@@ -42,10 +43,8 @@ def main2():
     for instruction in xs:
         split_inst = instruction.split()
         move_, from_, to_ = int(split_inst[1]), int(split_inst[3]), int(split_inst[5])
-
         crates[to_ - 1] += crates[from_ - 1][-move_:]
-        for i in range(move_):
-            crates[from_ - 1].pop()
+        crates[from_ - 1] = crates[from_ - 1][:-move_]
 
     print("".join([x.pop() for x in crates]))
 
